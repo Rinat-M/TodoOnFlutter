@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/common/string_constants.dart';
-import 'package:todo_app/ui/screens/main_screen.dart';
+import 'package:todos_app/common/string_constants.dart';
+import 'package:todos_app/ui/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());

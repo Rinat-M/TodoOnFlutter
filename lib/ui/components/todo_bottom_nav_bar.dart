@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/common/string_constants.dart';
+import 'package:todos_app/common/string_constants.dart';
 
 class TodoBottomNavBar extends StatelessWidget {
   final Function(int) onTab;

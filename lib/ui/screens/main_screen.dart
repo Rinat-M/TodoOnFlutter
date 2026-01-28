@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/ui/components/todo_bottom_nav_bar.dart';
+import 'package:todos_app/ui/components/todo_bottom_nav_bar.dart';
+import 'package:todos_app/ui/screens/todo_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key, required this.title});
@@ -12,12 +13,9 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _createTodo() {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => TodoScreen()));
   }
 
   void _onTab(int index) {
@@ -33,21 +31,9 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _createTodo,
+        tooltip: 'Create todo',
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: TodoBottomNavBar(
