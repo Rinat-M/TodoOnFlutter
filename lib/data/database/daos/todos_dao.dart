@@ -10,6 +10,8 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
 
   Future<List<Todo>> get allTodos => select(todos).get();
 
+   Stream<List<Todo>> get watchAllTodos => select(todos).watch();
+
   Future<int> insertTodo(Todo todo) => into(todos).insert(todo);
 
   Future<void> updateTodo(Todo todo) => update(todos).replace(todo);

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todos_app/data/database/daos/todos_dao.dart';
+import 'package:todos_app/data/database/migrations/migrations.dart';
 import 'package:todos_app/data/database/tables/executors.dart';
 import 'package:todos_app/data/database/tables/priorities.dart';
 import 'package:todos_app/data/database/tables/statuses.dart';
@@ -19,9 +20,16 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    beforeOpen: (details) => runOnBeforeOpen(this, details),
+    onCreate: (m) => runOnCreate(this, m),
+    onUpgrade: (m, from, to) => runOnUpgrade(this, m, from, to),
+  );
+
   static QueryExecutor _openConnection() {
     return driftDatabase(
-      name: 'todos.db',
+      name: 'todos_db',
       native: const DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
       ),
