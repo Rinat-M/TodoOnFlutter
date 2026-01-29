@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todos_app/data/providers/repository_providers.dart';
 import 'package:todos_app/ui/components/todo_bottom_nav_bar.dart';
-import 'package:todos_app/ui/screens/todo_screen.dart';
+import 'package:todos_app/ui/screens/create_todo_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key, required this.title});
