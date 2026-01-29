@@ -19,7 +19,7 @@ class TodoBottomNavBar extends StatelessWidget {
       items: const [
         BottomNavigationBarItem(
           label: StringConstants.myTodos,
-          icon: Icon(Icons.list),
+          icon: Icon(Icons.playlist_add_check),
         ),
         BottomNavigationBarItem(
           label: StringConstants.todosFromMe,

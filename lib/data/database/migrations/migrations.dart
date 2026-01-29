@@ -1,11 +1,15 @@
 import 'package:drift/drift.dart';
 import 'package:todos_app/data/database/app_database.dart';
+import 'package:todos_app/utils/logger.dart';
 
 Future<void> runOnBeforeOpen(AppDatabase db, OpeningDetails details) async {
+  logger.i('Migrations. runOnBeforeOpen');
   await db.customStatement('PRAGMA foreign_keys = ON');
 }
 
 Future<void> runOnCreate(AppDatabase db, Migrator m) async {
+  logger.i('Migrations. runOnCreate');
+
   await m.createAll();
 
   await initializePriorities(db, m);
