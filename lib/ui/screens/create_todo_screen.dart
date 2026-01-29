@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todos_app/common/string_constants.dart';
-import 'package:todos_app/data/database/app_database.dart';
+import 'package:todos_app/data/entites/executor_entity.dart';
+import 'package:todos_app/data/entites/priority_entity.dart';
+import 'package:todos_app/data/entites/todo_entity.dart';
 import 'package:todos_app/data/providers/data_providers.dart';
+import 'package:todos_app/data/providers/repository_providers.dart';
+import 'package:todos_app/utils/date_formater.dart';
 
 class TodoScreen extends HookConsumerWidget {
   const TodoScreen({super.key});
 
-  List<DropdownMenuItem<Priority>>? _buildPriorityItems(
-    AsyncValue<List<Priority>> itemsAsync,
+  List<DropdownMenuItem<PriorityEntity>>? _buildPriorityItems(
+    AsyncValue<List<PriorityEntity>> itemsAsync,
   ) {
     return itemsAsync.when(
       data: (items) {
@@ -36,8 +40,8 @@ class TodoScreen extends HookConsumerWidget {
     );
   }
 
-  List<DropdownMenuItem<Executor>>? _buildExecutorItems(
-    AsyncValue<List<Executor>> itemsAsync,
+  List<DropdownMenuItem<ExecutorEntity>>? _buildExecutorItems(
+    AsyncValue<List<ExecutorEntity>> itemsAsync,
   ) {
     return itemsAsync.when(
       data: (items) {
@@ -65,8 +69,8 @@ class TodoScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedPriority = useState<Priority?>(null);
-    final selectedExecutor = useState<Executor?>(null);
+    final selectedPriority = useState<PriorityEntity?>(null);
+    final selectedExecutor = useState<ExecutorEntity?>(null);
     final selectedDate = useState<DateTime?>(null);
 
     final prioritiesAsync = ref.watch(prioritiesProviders);
@@ -129,15 +133,14 @@ class TodoScreen extends HookConsumerWidget {
                     );
                     if (date != null) {
                       selectedDate.value = date;
-                      dateController.text =
-                          '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}';
+                      dateController.text = formatter.format(date);
                     }
                   },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: DropdownButtonFormField<Executor?>(
+                child: DropdownButtonFormField<ExecutorEntity?>(
                   initialValue: selectedExecutor.value,
                   hint: const Text(StringConstants.selectExecutor),
                   items: _buildExecutorItems(executorsAsync),
@@ -152,7 +155,7 @@ class TodoScreen extends HookConsumerWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: DropdownButtonFormField<Priority?>(
+                child: DropdownButtonFormField<PriorityEntity?>(
                   initialValue: selectedPriority.value,
                   hint: const Text(StringConstants.selectPriority),
                   items: _buildPriorityItems(prioritiesAsync),
@@ -174,6 +177,18 @@ class TodoScreen extends HookConsumerWidget {
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
+
+                      final todosRepository = ref.read(todosRepositoryProvider);
+
+                      todosRepository.addTodo(
+                        TodoEntity(
+                          id: 0,
+                          description: descriptionController.text,
+                          priority: selectedPriority.value?.id ?? 0,
+                          executor: selectedExecutor.value?.id ?? 0,
+                          executionDate: selectedDate.value!,
+                        ),
+                      );
 
                       Navigator.pop(context);
 
