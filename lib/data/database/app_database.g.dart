@@ -498,7 +498,7 @@ class ExecutorsCompanion extends UpdateCompanion<Executor> {
   }
 }
 
-class $StatusesTable extends Statuses with TableInfo<$StatusesTable, Statuse> {
+class $StatusesTable extends Statuses with TableInfo<$StatusesTable, Status> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -545,7 +545,7 @@ class $StatusesTable extends Statuses with TableInfo<$StatusesTable, Statuse> {
   static const String $name = 'statuses';
   @override
   VerificationContext validateIntegrity(
-    Insertable<Statuse> instance, {
+    Insertable<Status> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -578,9 +578,9 @@ class $StatusesTable extends Statuses with TableInfo<$StatusesTable, Statuse> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Statuse map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Status map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Statuse(
+    return Status(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -602,11 +602,11 @@ class $StatusesTable extends Statuses with TableInfo<$StatusesTable, Statuse> {
   }
 }
 
-class Statuse extends DataClass implements Insertable<Statuse> {
+class Status extends DataClass implements Insertable<Status> {
   final int id;
   final String name;
   final String description;
-  const Statuse({
+  const Status({
     required this.id,
     required this.name,
     required this.description,
@@ -628,12 +628,12 @@ class Statuse extends DataClass implements Insertable<Statuse> {
     );
   }
 
-  factory Statuse.fromJson(
+  factory Status.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Statuse(
+    return Status(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String>(json['description']),
@@ -649,13 +649,13 @@ class Statuse extends DataClass implements Insertable<Statuse> {
     };
   }
 
-  Statuse copyWith({int? id, String? name, String? description}) => Statuse(
+  Status copyWith({int? id, String? name, String? description}) => Status(
     id: id ?? this.id,
     name: name ?? this.name,
     description: description ?? this.description,
   );
-  Statuse copyWithCompanion(StatusesCompanion data) {
-    return Statuse(
+  Status copyWithCompanion(StatusesCompanion data) {
+    return Status(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       description: data.description.present
@@ -666,7 +666,7 @@ class Statuse extends DataClass implements Insertable<Statuse> {
 
   @override
   String toString() {
-    return (StringBuffer('Statuse(')
+    return (StringBuffer('Status(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description')
@@ -679,13 +679,13 @@ class Statuse extends DataClass implements Insertable<Statuse> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Statuse &&
+      (other is Status &&
           other.id == this.id &&
           other.name == this.name &&
           other.description == this.description);
 }
 
-class StatusesCompanion extends UpdateCompanion<Statuse> {
+class StatusesCompanion extends UpdateCompanion<Status> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> description;
@@ -700,7 +700,7 @@ class StatusesCompanion extends UpdateCompanion<Statuse> {
     required String description,
   }) : name = Value(name),
        description = Value(description);
-  static Insertable<Statuse> custom({
+  static Insertable<Status> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? description,
@@ -1747,7 +1747,7 @@ typedef $$StatusesTableUpdateCompanionBuilder =
     });
 
 final class $$StatusesTableReferences
-    extends BaseReferences<_$AppDatabase, $StatusesTable, Statuse> {
+    extends BaseReferences<_$AppDatabase, $StatusesTable, Status> {
   $$StatusesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$TodosTable, List<Todo>> _todosRefsTable(
@@ -1896,14 +1896,14 @@ class $$StatusesTableTableManager
         RootTableManager<
           _$AppDatabase,
           $StatusesTable,
-          Statuse,
+          Status,
           $$StatusesTableFilterComposer,
           $$StatusesTableOrderingComposer,
           $$StatusesTableAnnotationComposer,
           $$StatusesTableCreateCompanionBuilder,
           $$StatusesTableUpdateCompanionBuilder,
-          (Statuse, $$StatusesTableReferences),
-          Statuse,
+          (Status, $$StatusesTableReferences),
+          Status,
           PrefetchHooks Function({bool todosRefs})
         > {
   $$StatusesTableTableManager(_$AppDatabase db, $StatusesTable table)
@@ -1953,7 +1953,7 @@ class $$StatusesTableTableManager
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (todosRefs)
-                    await $_getPrefetchedData<Statuse, $StatusesTable, Todo>(
+                    await $_getPrefetchedData<Status, $StatusesTable, Todo>(
                       currentTable: table,
                       referencedTable: $$StatusesTableReferences
                           ._todosRefsTable(db),
@@ -1975,14 +1975,14 @@ typedef $$StatusesTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
       $StatusesTable,
-      Statuse,
+      Status,
       $$StatusesTableFilterComposer,
       $$StatusesTableOrderingComposer,
       $$StatusesTableAnnotationComposer,
       $$StatusesTableCreateCompanionBuilder,
       $$StatusesTableUpdateCompanionBuilder,
-      (Statuse, $$StatusesTableReferences),
-      Statuse,
+      (Status, $$StatusesTableReferences),
+      Status,
       PrefetchHooks Function({bool todosRefs})
     >;
 typedef $$TodosTableCreateCompanionBuilder =

@@ -13,4 +13,8 @@ class TodosRepository {
   Future<int> addTodo(Todo todo) => _dao.insertTodo(todo);
 
   Future<void> updateTodo(Todo todo) => _dao.updateTodo(todo);
+
+  Future<List<Priority>> get allPriorities => _dao.allPriorities;
+  
+  Future<List<Executor>> get allExecutors => _dao.allExecutors;
 }
