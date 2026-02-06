@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:todos_app/data/database/app_database.dart';
 import 'package:todos_app/data/database/mappers/executor_mapper.dart';
 import 'package:todos_app/data/database/mappers/priority_mapper.dart';
+import 'package:todos_app/data/database/mappers/status_mapper.dart';
 import 'package:todos_app/data/database/mappers/todo_mapper.dart';
 import 'package:todos_app/data/database/tables/todos.dart';
 import 'package:todos_app/data/entites/todo_with_relations.dart';
@@ -34,11 +35,16 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
 
   Future<void> updateTodo(Todo todo) => update(todos).replace(todo);
 
+  Future<Todo> getTodoById(int id) async {
+    return (select(todos)..where((e) => e.id.equals(id))).getSingle();
+  }
+
   Stream<List<TodoWithRelations>> watchAllTodoWithRelations() {
     logger.i("Running watchAllTodoWithRelations in TodosDao");
 
     final query = select(todos).join([
       innerJoin(priorities, priorities.id.equalsExp(todos.priority)),
+      innerJoin(statuses, statuses.id.equalsExp(todos.status)),
       innerJoin(executors, executors.id.equalsExp(todos.executor)),
     ]);
 
@@ -50,6 +56,7 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
               todo: e.readTable(todos).toDomain(),
               priority: e.readTable(priorities).toDomain(),
               executor: e.readTable(executors).toDomain(),
+              status: e.readTable(statuses).toDomain(),
             ),
           )
           .toList();

@@ -7,6 +7,7 @@ import 'package:todos_app/data/database/mappers/todo_mapper.dart';
 import 'package:todos_app/data/entites/executor_entity.dart';
 import 'package:todos_app/data/entites/priority_entity.dart';
 import 'package:todos_app/data/entites/status_entity.dart';
+import 'package:todos_app/data/entites/status_enum.dart';
 import 'package:todos_app/data/entites/todo_entity.dart';
 import 'package:todos_app/data/entites/todo_with_relations.dart';
 
@@ -14,6 +15,9 @@ class TodosRepository {
   final TodosDao _dao;
 
   const TodosRepository(this._dao);
+
+  Future<Status> get defaultStatus async =>
+      await _dao.getStatusByName(StatusEnum.assigned.name);
 
   Future<List<TodoEntity>> get allTodos async {
     final todosDb = await _dao.allTodos;
@@ -30,14 +34,19 @@ class TodosRepository {
       _dao.watchAllTodoWithRelations();
 
   Future<int> addTodo(TodoEntity todo) async {
-    final defaultStatus = await _dao.getStatusByName('Assigned');
     return _dao.insertTodoCompanion(
-      todo.toDbCompanion(defaultStatus: defaultStatus.id),
+      todo.toDbCompanion(defaultStatus: (await defaultStatus).id),
     );
   }
 
   Future<void> updateTodo(Todo todo) async {
     return _dao.updateTodo(todo);
+  }
+
+  Future<void> updateTodoStatus(int todoId, StatusEnum status) async {
+    final newStatus = await _dao.getStatusByName(status.name);
+    final todo = await _dao.getTodoById(todoId);
+    return _dao.updateTodo(todo.copyWith(status: newStatus.id));
   }
 
   Future<List<PriorityEntity>> get allPriorities async {

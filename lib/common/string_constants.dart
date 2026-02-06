@@ -18,4 +18,8 @@ abstract class StringConstants {
   static const String createTodo = "Create todo";
   static const String allPriorities = "Все приоритеты";
   static const String allStatuses = "Все статусы";
+  static const String cancel = "Отмена";
+  static const String changeStatus = "Смена статуса";
+  static const String takeOnTheTask = "Взять задачу в работу?";
+  static const String completeTheTask = "Завершить задачу?";
 }

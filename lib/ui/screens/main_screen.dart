@@ -5,7 +5,10 @@ import 'package:todos_app/common/string_constants.dart';
 import 'package:todos_app/data/entites/priority_entity.dart';
 import 'package:todos_app/data/entites/priority_enum.dart';
 import 'package:todos_app/data/entites/status_entity.dart';
+import 'package:todos_app/data/entites/status_enum.dart';
+import 'package:todos_app/data/entites/todo_with_relations.dart';
 import 'package:todos_app/data/providers/data_providers.dart';
+import 'package:todos_app/data/providers/repository_providers.dart';
 import 'package:todos_app/ui/components/dropdown_filter_chip.dart';
 import 'package:todos_app/ui/components/styled_list_tile.dart';
 import 'package:todos_app/ui/components/todo_bottom_nav_bar.dart';
@@ -40,6 +43,76 @@ class MainScreen extends HookConsumerWidget {
         colorBlendMode: BlendMode.srcIn,
       ),
     };
+  }
+
+  Image getStatusIcon(StatusEntity status) {
+    return switch (StatusEnum.fromString(status.name)) {
+      StatusEnum.assigned => Image.asset(
+        'assets/images/start.png',
+        width: 30.0,
+      ),
+      StatusEnum.inProcess => Image.asset(
+        'assets/images/dots-loading.gif',
+        width: 30.0,
+      ),
+      StatusEnum.completed => Image.asset(
+        'assets/images/done.png',
+        width: 30.0,
+      ),
+    };
+  }
+
+  void showChangeStatusDialog(
+    BuildContext context,
+    WidgetRef ref,
+    TodoWithRelations item,
+  ) {
+    final todosRepository = ref.read(todosRepositoryProvider);
+
+    final statusEnum = StatusEnum.fromString(item.status.name);
+
+    if (statusEnum == StatusEnum.completed) {
+      return;
+    }
+
+    final ({String dialogText, StatusEnum newStatus}) statusData =
+        switch (statusEnum) {
+          StatusEnum.assigned => (
+            dialogText: StringConstants.takeOnTheTask,
+            newStatus: StatusEnum.inProcess,
+          ),
+          StatusEnum.inProcess => (
+            dialogText: StringConstants.completeTheTask,
+            newStatus: StatusEnum.completed,
+          ),
+          _ => (dialogText: '', newStatus: StatusEnum.assigned),
+        };
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(StringConstants.changeStatus),
+          content: Text(statusData.dialogText),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(StringConstants.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                todosRepository.updateTodoStatus(
+                  item.todo.id,
+                  statusData.newStatus,
+                );
+                Navigator.pop(context);
+              },
+              child: Text(StringConstants.ok),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -163,7 +236,13 @@ class MainScreen extends HookConsumerWidget {
                         subtitle: Text(
                           "${StringConstants.executionDate}: ${formatter.format(item.todo.executionDate)}",
                         ),
-                        trailing: const Icon(Icons.arrow_forward_rounded),
+                        trailing: IconButton(
+                          icon: getStatusIcon(item.status),
+                          onPressed: () {
+                            logger.i("Icon pressed, status: ${item.status}");
+                            showChangeStatusDialog(context, ref, item);
+                          },
+                        ),
                       ),
                     );
                   },
