@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todos_app/data/entites/executor_entity.dart';
 import 'package:todos_app/data/entites/priority_entity.dart';
+import 'package:todos_app/data/entites/status_entity.dart';
 import 'package:todos_app/data/entites/todo_with_relations.dart';
 import 'package:todos_app/data/providers/repository_providers.dart';
 import 'package:todos_app/utils/logger.dart';
@@ -21,4 +22,16 @@ final todosProviders = StreamProvider<List<TodoWithRelations>>((ref) {
   logger.i('Init todosProviders');
   final todosRepository = ref.watch(todosRepositoryProvider);
   return todosRepository.watchTodosWithRelations();
+});
+
+final prioritesProviders = FutureProvider<List<PriorityEntity>>((ref) {
+  logger.i('Init prioritesProviders');
+  final todosRepository = ref.watch(todosRepositoryProvider);
+  return todosRepository.allPriorities;
+});
+
+final statusesProviders = FutureProvider<List<StatusEntity>>((ref) {
+  logger.i('Init statusesProviders');
+  final todosRepository = ref.watch(todosRepositoryProvider);
+  return todosRepository.allStatuses;
 });

@@ -40,11 +40,14 @@ class StyledListTile extends StatelessWidget {
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 4),
           leading: leading,
-          title: Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.w500),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          title: SizedBox(
+            height: 45,
+            child: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.w500),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           subtitle: subtitle,
           trailing: trailing,

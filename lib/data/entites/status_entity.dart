@@ -8,4 +8,8 @@ class StatusEntity {
     required this.name,
     required this.description,
   });
+
+  @override
+  String toString() =>
+      'StatusEntity(id: $id, name: $name, description=$description)';
 }

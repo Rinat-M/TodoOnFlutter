@@ -2,9 +2,11 @@ import 'package:todos_app/data/database/app_database.dart';
 import 'package:todos_app/data/database/daos/todos_dao.dart';
 import 'package:todos_app/data/database/mappers/executor_mapper.dart';
 import 'package:todos_app/data/database/mappers/priority_mapper.dart';
+import 'package:todos_app/data/database/mappers/status_mapper.dart';
 import 'package:todos_app/data/database/mappers/todo_mapper.dart';
 import 'package:todos_app/data/entites/executor_entity.dart';
 import 'package:todos_app/data/entites/priority_entity.dart';
+import 'package:todos_app/data/entites/status_entity.dart';
 import 'package:todos_app/data/entites/todo_entity.dart';
 import 'package:todos_app/data/entites/todo_with_relations.dart';
 
@@ -46,5 +48,10 @@ class TodosRepository {
   Future<List<ExecutorEntity>> get allExecutors async {
     final executorsDb = await _dao.allExecutors;
     return executorsDb.map((e) => e.toDomain()).toList();
+  }
+
+  Future<List<StatusEntity>> get allStatuses async {
+    final statusesDb = await _dao.allStatuses;
+    return statusesDb.map((e) => e.toDomain()).toList();
   }
 }

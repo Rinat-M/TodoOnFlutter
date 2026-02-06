@@ -114,7 +114,7 @@ class TodoScreen extends HookConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: TextFormField(
-                  readOnly: true, // Только выбор
+                  readOnly: true,
                   controller: dateController,
                   decoration: const InputDecoration(
                     labelText: StringConstants.executionDate,

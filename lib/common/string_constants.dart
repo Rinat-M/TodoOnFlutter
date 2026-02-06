@@ -15,4 +15,7 @@ abstract class StringConstants {
   static const String ok = "ОК";
   static const String requiredField = "Обязательное поле";
   static const String minimumFiveCharacters = "Минимум 5 символов";
+  static const String createTodo = "Create todo";
+  static const String allPriorities = "Все приоритеты";
+  static const String allStatuses = "Все статусы";
 }
