@@ -12,7 +12,7 @@ import 'package:todos_app/data/providers/repository_providers.dart';
 import 'package:todos_app/ui/components/dropdown_filter_chip.dart';
 import 'package:todos_app/ui/components/styled_list_tile.dart';
 import 'package:todos_app/ui/components/todo_bottom_nav_bar.dart';
-import 'package:todos_app/ui/screens/create_todo_screen.dart';
+import 'package:todos_app/ui/routes/app_routes.dart';
 import 'package:todos_app/utils/constants.dart';
 import 'package:todos_app/utils/date_formater.dart';
 import 'package:todos_app/utils/logger.dart';
@@ -227,21 +227,28 @@ class MainScreen extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     final item = filteredItems[index];
 
-                    return SizedBox(
-                      key: ValueKey(item.todo.id),
-                      height: 90,
-                      child: StyledListTile(
-                        leading: getPriorityIcon(item.priority),
-                        title: item.todo.description,
-                        subtitle: Text(
-                          "${StringConstants.executionDate}: ${formatter.format(item.todo.executionDate)}",
-                        ),
-                        trailing: IconButton(
-                          icon: getStatusIcon(item.status),
-                          onPressed: () {
-                            logger.i("Icon pressed, status: ${item.status}");
-                            showChangeStatusDialog(context, ref, item);
-                          },
+                    return InkWell(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.editTodo,
+                        arguments: {'todoId': item.todo.id},
+                      ),
+                      child: SizedBox(
+                        key: ValueKey(item.todo.id),
+                        height: 90,
+                        child: StyledListTile(
+                          leading: getPriorityIcon(item.priority),
+                          title: item.todo.description,
+                          subtitle: Text(
+                            "${StringConstants.executionDate}: ${formatter.format(item.todo.executionDate)}",
+                          ),
+                          trailing: IconButton(
+                            icon: getStatusIcon(item.status),
+                            onPressed: () {
+                              logger.i("Icon pressed, status: ${item.status}");
+                              showChangeStatusDialog(context, ref, item);
+                            },
+                          ),
                         ),
                       ),
                     );
@@ -255,10 +262,7 @@ class MainScreen extends HookConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => TodoScreen()),
-        ),
+        onPressed: () => Navigator.pushNamed(context, AppRoutes.createTodo),
         tooltip: StringConstants.createTodo,
         child: const Icon(Icons.add),
       ),

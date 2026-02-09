@@ -33,6 +33,9 @@ class TodosRepository {
   Stream<List<TodoWithRelations>> watchTodosWithRelations() =>
       _dao.watchAllTodoWithRelations();
 
+  Stream<TodoWithRelations> watchTodoWithRelationsById(int id) =>
+      _dao.watchTodoWithRelationsById(id);
+
   Future<int> addTodo(TodoEntity todo) async {
     return _dao.insertTodoCompanion(
       todo.toDbCompanion(defaultStatus: (await defaultStatus).id),

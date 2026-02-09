@@ -62,4 +62,24 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
           .toList();
     });
   }
+
+  Stream<TodoWithRelations> watchTodoWithRelationsById(int id) {
+    logger.i("Running watchTodoWithRelationsById in TodosDao with id=$id");
+    final query = (select(todos)..where((e) => e.id.equals(id))).join([
+      innerJoin(priorities, priorities.id.equalsExp(todos.priority)),
+      innerJoin(statuses, statuses.id.equalsExp(todos.status)),
+      innerJoin(executors, executors.id.equalsExp(todos.executor)),
+    ]);
+
+    return query.watchSingle().map((e) {
+      logger.i("watchTodoWithRelationsById map transform");
+      
+      return TodoWithRelations(
+        todo: e.readTable(todos).toDomain(),
+        priority: e.readTable(priorities).toDomain(),
+        executor: e.readTable(executors).toDomain(),
+        status: e.readTable(statuses).toDomain(),
+      );
+    });
+  }
 }

@@ -24,6 +24,13 @@ final todosProviders = StreamProvider<List<TodoWithRelations>>((ref) {
   return todosRepository.watchTodosWithRelations();
 });
 
+final todoDataProvider = StreamProvider.autoDispose
+    .family<TodoWithRelations, int>((ref, id) {
+      logger.i('Init todoDataProvider');
+      final todosRepository = ref.watch(todosRepositoryProvider);
+      return todosRepository.watchTodoWithRelationsById(id);
+    });
+
 final prioritesProviders = FutureProvider<List<PriorityEntity>>((ref) {
   logger.i('Init prioritesProviders');
   final todosRepository = ref.watch(todosRepositoryProvider);

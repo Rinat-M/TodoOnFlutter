@@ -22,4 +22,8 @@ abstract class StringConstants {
   static const String changeStatus = "Смена статуса";
   static const String takeOnTheTask = "Взять задачу в работу?";
   static const String completeTheTask = "Завершить задачу?";
+  static const String status = "Статус";
+  static const String statusHasBeenChanged = "Статус изменен";
+  static const String takeOn = "Взять в работу";
+  static const String complete = "Завершить";
 }

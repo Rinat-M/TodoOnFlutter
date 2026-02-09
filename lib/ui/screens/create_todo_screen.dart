@@ -9,8 +9,8 @@ import 'package:todos_app/data/providers/data_providers.dart';
 import 'package:todos_app/data/providers/repository_providers.dart';
 import 'package:todos_app/utils/date_formater.dart';
 
-class TodoScreen extends HookConsumerWidget {
-  const TodoScreen({super.key});
+class CreateTodoScreen extends HookConsumerWidget {
+  const CreateTodoScreen({super.key});
 
   List<DropdownMenuItem<PriorityEntity>>? _buildPriorityItems(
     AsyncValue<List<PriorityEntity>> itemsAsync,
