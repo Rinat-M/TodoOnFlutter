@@ -6,8 +6,9 @@ abstract class StringConstants {
   static const String taskDescription = "Описание";
   static const String enterDescription = "Введите описание";
   static const String executionDate = "Дата исполнения";
-  static const String selectExecutor = "Выберите исполнителя";
-  static const String executor = "Исполнитель";
+  static const String selectExecutor = "Выберите ответственного";
+  static const String executor = "Ответственный";
+  static const String executors = "Ответственные";
   static const String selectPriority = "Выберите приоритет";
   static const String priority = "Приоритет";
   static const String createTask = "Создать задачу";
@@ -15,7 +16,7 @@ abstract class StringConstants {
   static const String ok = "ОК";
   static const String requiredField = "Обязательное поле";
   static const String minimumFiveCharacters = "Минимум 5 символов";
-  static const String createTodo = "Create todo";
+  static const String createTodo = "Создать задачу";
   static const String allPriorities = "Все приоритеты";
   static const String allStatuses = "Все статусы";
   static const String cancel = "Отмена";
@@ -26,4 +27,14 @@ abstract class StringConstants {
   static const String statusHasBeenChanged = "Статус изменен";
   static const String takeOn = "Взять в работу";
   static const String complete = "Завершить";
+  static const String createExecutor = "Создать ответственного";
+  static const String name = "Имя";
+  static const String enterName = "Введите имя";
+  static const String phone = "Телефон";
+  static const String enterPhone = "Введите телефон";
+  static const String minimumTwoCharacters = "Минимум 2 символа";
+  static const String enterValidPhone = "Введите корректный номер телефона";
+  static const String prefixPhone = "+7";
+  static const String invalidNumberFormat = "Неверный формат номера";
+  static const String executorHasBeenCreated = "Ответственный создан";
 }

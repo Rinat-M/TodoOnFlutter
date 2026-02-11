@@ -6,7 +6,7 @@ import 'package:todos_app/data/database/mappers/status_mapper.dart';
 import 'package:todos_app/data/database/mappers/todo_mapper.dart';
 import 'package:todos_app/data/database/tables/todos.dart';
 import 'package:todos_app/data/entites/todo_with_relations.dart';
-import 'package:todos_app/utils/logger.dart';
+import 'package:todos_app/common/logger.dart';
 
 part 'todos_dao.g.dart';
 
@@ -73,7 +73,7 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
 
     return query.watchSingle().map((e) {
       logger.i("watchTodoWithRelationsById map transform");
-      
+
       return TodoWithRelations(
         todo: e.readTable(todos).toDomain(),
         priority: e.readTable(priorities).toDomain(),
@@ -82,4 +82,9 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
       );
     });
   }
+
+  Future<int> insertExecutorCompanion(ExecutorsCompanion executor) =>
+      into(executors).insert(executor);
+
+  Stream<List<Executor>> get watchAllExecutors => select(executors).watch();
 }

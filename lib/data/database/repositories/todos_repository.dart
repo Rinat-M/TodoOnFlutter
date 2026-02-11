@@ -66,4 +66,14 @@ class TodosRepository {
     final statusesDb = await _dao.allStatuses;
     return statusesDb.map((e) => e.toDomain()).toList();
   }
+
+  Future<int> addExecutor(ExecutorEntity executor) async {
+    return _dao.insertExecutorCompanion(executor.toDbCompanion());
+  }
+
+  Stream<List<ExecutorEntity>> watchExecutors() {
+    return _dao.watchAllExecutors.map(
+      (list) => list.map((e) => e.toDomain()).toList(),
+    );
+  }
 }

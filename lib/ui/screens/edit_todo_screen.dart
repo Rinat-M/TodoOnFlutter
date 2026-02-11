@@ -6,8 +6,8 @@ import 'package:todos_app/data/entites/status_enum.dart';
 import 'package:todos_app/data/entites/todo_with_relations.dart';
 import 'package:todos_app/data/providers/data_providers.dart';
 import 'package:todos_app/data/providers/repository_providers.dart';
-import 'package:todos_app/utils/date_formater.dart';
-import 'package:todos_app/utils/logger.dart';
+import 'package:todos_app/common/date_formater.dart';
+import 'package:todos_app/common/logger.dart';
 
 class EditTodoScreen extends HookConsumerWidget {
   const EditTodoScreen({super.key});

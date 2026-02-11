@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:todos_app/data/database/app_database.dart';
-import 'package:todos_app/utils/logger.dart';
+import 'package:todos_app/common/logger.dart';
 
 Future<void> runOnBeforeOpen(AppDatabase db, OpeningDetails details) async {
   logger.i('Migrations. runOnBeforeOpen');

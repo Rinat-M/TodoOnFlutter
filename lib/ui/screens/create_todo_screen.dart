@@ -7,7 +7,7 @@ import 'package:todos_app/data/entites/priority_entity.dart';
 import 'package:todos_app/data/entites/todo_entity.dart';
 import 'package:todos_app/data/providers/data_providers.dart';
 import 'package:todos_app/data/providers/repository_providers.dart';
-import 'package:todos_app/utils/date_formater.dart';
+import 'package:todos_app/common/date_formater.dart';
 
 class CreateTodoScreen extends HookConsumerWidget {
   const CreateTodoScreen({super.key});
@@ -73,8 +73,8 @@ class CreateTodoScreen extends HookConsumerWidget {
     final selectedExecutor = useState<ExecutorEntity?>(null);
     final selectedDate = useState<DateTime?>(null);
 
-    final prioritiesAsync = ref.watch(prioritiesProviders);
-    final executorsAsync = ref.watch(executorsProviders);
+    final prioritiesAsync = ref.watch(prioritiesProvider);
+    final executorsAsync = ref.watch(executorsProvider);
 
     final dateController = useTextEditingController();
     final descriptionController = useTextEditingController();

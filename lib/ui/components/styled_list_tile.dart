@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
 class StyledListTile extends StatelessWidget {
-  final Widget leading;
+  final Widget? leading;
   final String title;
   final Widget? subtitle;
   final Widget? trailing;
   final VoidCallback? onTap;
   final bool isSelected;
+  final double height;
 
   const StyledListTile({
     super.key,
-    required this.leading,
+    this.leading,
     required this.title,
     this.subtitle,
     this.trailing,
     this.onTap,
     this.isSelected = false,
+    this.height = 45,
   });
 
   @override
@@ -38,10 +40,10 @@ class StyledListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         color: Colors.transparent,
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 4),
+          contentPadding: EdgeInsets.symmetric(horizontal: 8),
           leading: leading,
           title: SizedBox(
-            height: 45,
+            height: height,
             child: Text(
               title,
               style: TextStyle(fontWeight: FontWeight.w500),

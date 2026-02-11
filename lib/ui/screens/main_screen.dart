@@ -13,9 +13,9 @@ import 'package:todos_app/ui/components/dropdown_filter_chip.dart';
 import 'package:todos_app/ui/components/styled_list_tile.dart';
 import 'package:todos_app/ui/components/todo_bottom_nav_bar.dart';
 import 'package:todos_app/ui/routes/app_routes.dart';
-import 'package:todos_app/utils/constants.dart';
-import 'package:todos_app/utils/date_formater.dart';
-import 'package:todos_app/utils/logger.dart';
+import 'package:todos_app/common/constants.dart';
+import 'package:todos_app/common/date_formater.dart';
+import 'package:todos_app/common/logger.dart';
 
 class MainScreen extends HookConsumerWidget {
   const MainScreen({super.key, required this.title});
@@ -117,9 +117,9 @@ class MainScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todosAsync = ref.watch(todosProviders);
-    final statusesAsync = ref.watch(statusesProviders);
-    final prioritiesAsync = ref.watch(prioritesProviders);
+    final todosAsync = ref.watch(todosProvider);
+    final statusesAsync = ref.watch(statusesProvider);
+    final prioritiesAsync = ref.watch(prioritiesProvider);
 
     final selectedIndex = useState(0);
     final selectedPriority = useState<PriorityEntity?>(null);
@@ -129,6 +129,12 @@ class MainScreen extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.people),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.executors),
+          ),
+        ],
       ),
       body: Column(
         children: [

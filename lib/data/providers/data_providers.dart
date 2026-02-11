@@ -4,22 +4,32 @@ import 'package:todos_app/data/entites/priority_entity.dart';
 import 'package:todos_app/data/entites/status_entity.dart';
 import 'package:todos_app/data/entites/todo_with_relations.dart';
 import 'package:todos_app/data/providers/repository_providers.dart';
-import 'package:todos_app/utils/logger.dart';
+import 'package:todos_app/common/logger.dart';
 
-final prioritiesProviders = FutureProvider<List<PriorityEntity>>((ref) {
-  logger.i('Init prioritiesProviders');
+final prioritiesProvider = FutureProvider.autoDispose<List<PriorityEntity>>((
+  ref,
+) {
+  logger.i('Init prioritiesProvider');
   final todosRepository = ref.watch(todosRepositoryProvider);
   return todosRepository.allPriorities;
 });
 
-final executorsProviders = FutureProvider<List<ExecutorEntity>>((ref) {
-  logger.i('Init executorsProviders');
+final executorsProvider = FutureProvider.autoDispose<List<ExecutorEntity>>((
+  ref,
+) {
+  logger.i('Init executorsProvider');
   final todosRepository = ref.watch(todosRepositoryProvider);
   return todosRepository.allExecutors;
 });
 
-final todosProviders = StreamProvider<List<TodoWithRelations>>((ref) {
-  logger.i('Init todosProviders');
+final executorsStreamProvider = StreamProvider<List<ExecutorEntity>>((ref) {
+  logger.i('Init executorsProvider');
+  final todosRepository = ref.watch(todosRepositoryProvider);
+  return todosRepository.watchExecutors();
+});
+
+final todosProvider = StreamProvider<List<TodoWithRelations>>((ref) {
+  logger.i('Init todosProvider');
   final todosRepository = ref.watch(todosRepositoryProvider);
   return todosRepository.watchTodosWithRelations();
 });
@@ -31,14 +41,8 @@ final todoDataProvider = StreamProvider.autoDispose
       return todosRepository.watchTodoWithRelationsById(id);
     });
 
-final prioritesProviders = FutureProvider<List<PriorityEntity>>((ref) {
-  logger.i('Init prioritesProviders');
-  final todosRepository = ref.watch(todosRepositoryProvider);
-  return todosRepository.allPriorities;
-});
-
-final statusesProviders = FutureProvider<List<StatusEntity>>((ref) {
-  logger.i('Init statusesProviders');
+final statusesProvider = FutureProvider<List<StatusEntity>>((ref) {
+  logger.i('Init statusesProvider');
   final todosRepository = ref.watch(todosRepositoryProvider);
   return todosRepository.allStatuses;
 });
