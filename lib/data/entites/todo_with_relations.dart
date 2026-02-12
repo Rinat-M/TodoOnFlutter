@@ -7,12 +7,14 @@ class TodoWithRelations {
   final TodoEntity todo;
   final PriorityEntity priority;
   final ExecutorEntity executor;
+  final ExecutorEntity author;
   final StatusEntity status;
 
   const TodoWithRelations({
     required this.todo,
     required this.priority,
     required this.executor,
+    required this.author,
     required this.status,
   });
 }

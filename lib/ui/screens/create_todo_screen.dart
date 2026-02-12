@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todos_app/common/app_constants.dart';
 import 'package:todos_app/common/string_constants.dart';
 import 'package:todos_app/data/entites/executor_entity.dart';
 import 'package:todos_app/data/entites/priority_entity.dart';
@@ -186,6 +187,7 @@ class CreateTodoScreen extends HookConsumerWidget {
                           description: descriptionController.text,
                           priority: selectedPriority.value?.id ?? 0,
                           executor: selectedExecutor.value?.id ?? 0,
+                          author: currentUserId,
                           executionDate: selectedDate.value!,
                         ),
                       );
@@ -193,7 +195,7 @@ class CreateTodoScreen extends HookConsumerWidget {
                       Navigator.pop(context);
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text(StringConstants.taskHasBeenCreated),
                           duration: Duration(seconds: 2),
                         ),

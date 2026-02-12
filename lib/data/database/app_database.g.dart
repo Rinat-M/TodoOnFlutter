@@ -807,6 +807,18 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       'REFERENCES executors (id)',
     ),
   );
+  static const VerificationMeta _authorMeta = const VerificationMeta('author');
+  @override
+  late final GeneratedColumn<int> author = GeneratedColumn<int>(
+    'author',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES executors (id)',
+    ),
+  );
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumn<int> status = GeneratedColumn<int>(
@@ -849,6 +861,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
     description,
     priority,
     executor,
+    author,
     status,
     createdAt,
     executionDate,
@@ -894,6 +907,14 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       );
     } else if (isInserting) {
       context.missing(_executorMeta);
+    }
+    if (data.containsKey('author')) {
+      context.handle(
+        _authorMeta,
+        author.isAcceptableOrUnknown(data['author']!, _authorMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_authorMeta);
     }
     if (data.containsKey('status')) {
       context.handle(
@@ -945,6 +966,10 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
         DriftSqlType.int,
         data['${effectivePrefix}executor'],
       )!,
+      author: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}author'],
+      )!,
       status: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}status'],
@@ -971,6 +996,7 @@ class Todo extends DataClass implements Insertable<Todo> {
   final String description;
   final int priority;
   final int executor;
+  final int author;
   final int status;
   final DateTime createdAt;
   final DateTime executionDate;
@@ -979,6 +1005,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     required this.description,
     required this.priority,
     required this.executor,
+    required this.author,
     required this.status,
     required this.createdAt,
     required this.executionDate,
@@ -990,6 +1017,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     map['description'] = Variable<String>(description);
     map['priority'] = Variable<int>(priority);
     map['executor'] = Variable<int>(executor);
+    map['author'] = Variable<int>(author);
     map['status'] = Variable<int>(status);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['execution_date'] = Variable<DateTime>(executionDate);
@@ -1002,6 +1030,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       description: Value(description),
       priority: Value(priority),
       executor: Value(executor),
+      author: Value(author),
       status: Value(status),
       createdAt: Value(createdAt),
       executionDate: Value(executionDate),
@@ -1018,6 +1047,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       description: serializer.fromJson<String>(json['description']),
       priority: serializer.fromJson<int>(json['priority']),
       executor: serializer.fromJson<int>(json['executor']),
+      author: serializer.fromJson<int>(json['author']),
       status: serializer.fromJson<int>(json['status']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       executionDate: serializer.fromJson<DateTime>(json['executionDate']),
@@ -1031,6 +1061,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       'description': serializer.toJson<String>(description),
       'priority': serializer.toJson<int>(priority),
       'executor': serializer.toJson<int>(executor),
+      'author': serializer.toJson<int>(author),
       'status': serializer.toJson<int>(status),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'executionDate': serializer.toJson<DateTime>(executionDate),
@@ -1042,6 +1073,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     String? description,
     int? priority,
     int? executor,
+    int? author,
     int? status,
     DateTime? createdAt,
     DateTime? executionDate,
@@ -1050,6 +1082,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     description: description ?? this.description,
     priority: priority ?? this.priority,
     executor: executor ?? this.executor,
+    author: author ?? this.author,
     status: status ?? this.status,
     createdAt: createdAt ?? this.createdAt,
     executionDate: executionDate ?? this.executionDate,
@@ -1062,6 +1095,7 @@ class Todo extends DataClass implements Insertable<Todo> {
           : this.description,
       priority: data.priority.present ? data.priority.value : this.priority,
       executor: data.executor.present ? data.executor.value : this.executor,
+      author: data.author.present ? data.author.value : this.author,
       status: data.status.present ? data.status.value : this.status,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       executionDate: data.executionDate.present
@@ -1077,6 +1111,7 @@ class Todo extends DataClass implements Insertable<Todo> {
           ..write('description: $description, ')
           ..write('priority: $priority, ')
           ..write('executor: $executor, ')
+          ..write('author: $author, ')
           ..write('status: $status, ')
           ..write('createdAt: $createdAt, ')
           ..write('executionDate: $executionDate')
@@ -1090,6 +1125,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     description,
     priority,
     executor,
+    author,
     status,
     createdAt,
     executionDate,
@@ -1102,6 +1138,7 @@ class Todo extends DataClass implements Insertable<Todo> {
           other.description == this.description &&
           other.priority == this.priority &&
           other.executor == this.executor &&
+          other.author == this.author &&
           other.status == this.status &&
           other.createdAt == this.createdAt &&
           other.executionDate == this.executionDate);
@@ -1112,6 +1149,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   final Value<String> description;
   final Value<int> priority;
   final Value<int> executor;
+  final Value<int> author;
   final Value<int> status;
   final Value<DateTime> createdAt;
   final Value<DateTime> executionDate;
@@ -1120,6 +1158,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     this.description = const Value.absent(),
     this.priority = const Value.absent(),
     this.executor = const Value.absent(),
+    this.author = const Value.absent(),
     this.status = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.executionDate = const Value.absent(),
@@ -1129,12 +1168,14 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     required String description,
     required int priority,
     required int executor,
+    required int author,
     required int status,
     this.createdAt = const Value.absent(),
     required DateTime executionDate,
   }) : description = Value(description),
        priority = Value(priority),
        executor = Value(executor),
+       author = Value(author),
        status = Value(status),
        executionDate = Value(executionDate);
   static Insertable<Todo> custom({
@@ -1142,6 +1183,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     Expression<String>? description,
     Expression<int>? priority,
     Expression<int>? executor,
+    Expression<int>? author,
     Expression<int>? status,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? executionDate,
@@ -1151,6 +1193,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       if (description != null) 'description': description,
       if (priority != null) 'priority': priority,
       if (executor != null) 'executor': executor,
+      if (author != null) 'author': author,
       if (status != null) 'status': status,
       if (createdAt != null) 'created_at': createdAt,
       if (executionDate != null) 'execution_date': executionDate,
@@ -1162,6 +1205,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     Value<String>? description,
     Value<int>? priority,
     Value<int>? executor,
+    Value<int>? author,
     Value<int>? status,
     Value<DateTime>? createdAt,
     Value<DateTime>? executionDate,
@@ -1171,6 +1215,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       description: description ?? this.description,
       priority: priority ?? this.priority,
       executor: executor ?? this.executor,
+      author: author ?? this.author,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       executionDate: executionDate ?? this.executionDate,
@@ -1192,6 +1237,9 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     if (executor.present) {
       map['executor'] = Variable<int>(executor.value);
     }
+    if (author.present) {
+      map['author'] = Variable<int>(author.value);
+    }
     if (status.present) {
       map['status'] = Variable<int>(status.value);
     }
@@ -1211,6 +1259,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
           ..write('description: $description, ')
           ..write('priority: $priority, ')
           ..write('executor: $executor, ')
+          ..write('author: $author, ')
           ..write('status: $status, ')
           ..write('createdAt: $createdAt, ')
           ..write('executionDate: $executionDate')
@@ -1504,30 +1553,6 @@ typedef $$ExecutorsTableUpdateCompanionBuilder =
       Value<String> phone,
     });
 
-final class $$ExecutorsTableReferences
-    extends BaseReferences<_$AppDatabase, $ExecutorsTable, Executor> {
-  $$ExecutorsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<$TodosTable, List<Todo>> _todosRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.todos,
-    aliasName: $_aliasNameGenerator(db.executors.id, db.todos.executor),
-  );
-
-  $$TodosTableProcessedTableManager get todosRefs {
-    final manager = $$TodosTableTableManager(
-      $_db,
-      $_db.todos,
-    ).filter((f) => f.executor.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_todosRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
 class $$ExecutorsTableFilterComposer
     extends Composer<_$AppDatabase, $ExecutorsTable> {
   $$ExecutorsTableFilterComposer({
@@ -1551,31 +1576,6 @@ class $$ExecutorsTableFilterComposer
     column: $table.phone,
     builder: (column) => ColumnFilters(column),
   );
-
-  Expression<bool> todosRefs(
-    Expression<bool> Function($$TodosTableFilterComposer f) f,
-  ) {
-    final $$TodosTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.todos,
-      getReferencedColumn: (t) => t.executor,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TodosTableFilterComposer(
-            $db: $db,
-            $table: $db.todos,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
 }
 
 class $$ExecutorsTableOrderingComposer
@@ -1620,31 +1620,6 @@ class $$ExecutorsTableAnnotationComposer
 
   GeneratedColumn<String> get phone =>
       $composableBuilder(column: $table.phone, builder: (column) => column);
-
-  Expression<T> todosRefs<T extends Object>(
-    Expression<T> Function($$TodosTableAnnotationComposer a) f,
-  ) {
-    final $$TodosTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.todos,
-      getReferencedColumn: (t) => t.executor,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TodosTableAnnotationComposer(
-            $db: $db,
-            $table: $db.todos,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
 }
 
 class $$ExecutorsTableTableManager
@@ -1658,9 +1633,9 @@ class $$ExecutorsTableTableManager
           $$ExecutorsTableAnnotationComposer,
           $$ExecutorsTableCreateCompanionBuilder,
           $$ExecutorsTableUpdateCompanionBuilder,
-          (Executor, $$ExecutorsTableReferences),
+          (Executor, BaseReferences<_$AppDatabase, $ExecutorsTable, Executor>),
           Executor,
-          PrefetchHooks Function({bool todosRefs})
+          PrefetchHooks Function()
         > {
   $$ExecutorsTableTableManager(_$AppDatabase db, $ExecutorsTable table)
     : super(
@@ -1686,35 +1661,9 @@ class $$ExecutorsTableTableManager
                 required String phone,
               }) => ExecutorsCompanion.insert(id: id, name: name, phone: phone),
           withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$ExecutorsTableReferences(db, table, e),
-                ),
-              )
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback: ({todosRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (todosRefs) db.todos],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (todosRefs)
-                    await $_getPrefetchedData<Executor, $ExecutorsTable, Todo>(
-                      currentTable: table,
-                      referencedTable: $$ExecutorsTableReferences
-                          ._todosRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$ExecutorsTableReferences(db, table, p0).todosRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.executor == item.id),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
+          prefetchHooksCallback: null,
         ),
       );
 }
@@ -1729,9 +1678,9 @@ typedef $$ExecutorsTableProcessedTableManager =
       $$ExecutorsTableAnnotationComposer,
       $$ExecutorsTableCreateCompanionBuilder,
       $$ExecutorsTableUpdateCompanionBuilder,
-      (Executor, $$ExecutorsTableReferences),
+      (Executor, BaseReferences<_$AppDatabase, $ExecutorsTable, Executor>),
       Executor,
-      PrefetchHooks Function({bool todosRefs})
+      PrefetchHooks Function()
     >;
 typedef $$StatusesTableCreateCompanionBuilder =
     StatusesCompanion Function({
@@ -1991,6 +1940,7 @@ typedef $$TodosTableCreateCompanionBuilder =
       required String description,
       required int priority,
       required int executor,
+      required int author,
       required int status,
       Value<DateTime> createdAt,
       required DateTime executionDate,
@@ -2001,6 +1951,7 @@ typedef $$TodosTableUpdateCompanionBuilder =
       Value<String> description,
       Value<int> priority,
       Value<int> executor,
+      Value<int> author,
       Value<int> status,
       Value<DateTime> createdAt,
       Value<DateTime> executionDate,
@@ -2038,6 +1989,23 @@ final class $$TodosTableReferences
       $_db.executors,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_executorTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $ExecutorsTable _authorTable(_$AppDatabase db) => db.executors
+      .createAlias($_aliasNameGenerator(db.todos.author, db.executors.id));
+
+  $$ExecutorsTableProcessedTableManager get author {
+    final $_column = $_itemColumn<int>('author')!;
+
+    final manager = $$ExecutorsTableTableManager(
+      $_db,
+      $_db.executors,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_authorTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -2117,6 +2085,29 @@ class $$TodosTableFilterComposer extends Composer<_$AppDatabase, $TodosTable> {
     final $$ExecutorsTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.executor,
+      referencedTable: $db.executors,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExecutorsTableFilterComposer(
+            $db: $db,
+            $table: $db.executors,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ExecutorsTableFilterComposer get author {
+    final $$ExecutorsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.author,
       referencedTable: $db.executors,
       getReferencedColumn: (t) => t.id,
       builder:
@@ -2235,6 +2226,29 @@ class $$TodosTableOrderingComposer
     return composer;
   }
 
+  $$ExecutorsTableOrderingComposer get author {
+    final $$ExecutorsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.author,
+      referencedTable: $db.executors,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExecutorsTableOrderingComposer(
+            $db: $db,
+            $table: $db.executors,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   $$StatusesTableOrderingComposer get status {
     final $$StatusesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -2330,6 +2344,29 @@ class $$TodosTableAnnotationComposer
     return composer;
   }
 
+  $$ExecutorsTableAnnotationComposer get author {
+    final $$ExecutorsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.author,
+      referencedTable: $db.executors,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExecutorsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.executors,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   $$StatusesTableAnnotationComposer get status {
     final $$StatusesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -2367,7 +2404,12 @@ class $$TodosTableTableManager
           $$TodosTableUpdateCompanionBuilder,
           (Todo, $$TodosTableReferences),
           Todo,
-          PrefetchHooks Function({bool priority, bool executor, bool status})
+          PrefetchHooks Function({
+            bool priority,
+            bool executor,
+            bool author,
+            bool status,
+          })
         > {
   $$TodosTableTableManager(_$AppDatabase db, $TodosTable table)
     : super(
@@ -2386,6 +2428,7 @@ class $$TodosTableTableManager
                 Value<String> description = const Value.absent(),
                 Value<int> priority = const Value.absent(),
                 Value<int> executor = const Value.absent(),
+                Value<int> author = const Value.absent(),
                 Value<int> status = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> executionDate = const Value.absent(),
@@ -2394,6 +2437,7 @@ class $$TodosTableTableManager
                 description: description,
                 priority: priority,
                 executor: executor,
+                author: author,
                 status: status,
                 createdAt: createdAt,
                 executionDate: executionDate,
@@ -2404,6 +2448,7 @@ class $$TodosTableTableManager
                 required String description,
                 required int priority,
                 required int executor,
+                required int author,
                 required int status,
                 Value<DateTime> createdAt = const Value.absent(),
                 required DateTime executionDate,
@@ -2412,6 +2457,7 @@ class $$TodosTableTableManager
                 description: description,
                 priority: priority,
                 executor: executor,
+                author: author,
                 status: status,
                 createdAt: createdAt,
                 executionDate: executionDate,
@@ -2423,7 +2469,12 @@ class $$TodosTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({priority = false, executor = false, status = false}) {
+              ({
+                priority = false,
+                executor = false,
+                author = false,
+                status = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [],
@@ -2469,6 +2520,19 @@ class $$TodosTableTableManager
                                   )
                                   as T;
                         }
+                        if (author) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.author,
+                                    referencedTable: $$TodosTableReferences
+                                        ._authorTable(db),
+                                    referencedColumn: $$TodosTableReferences
+                                        ._authorTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
                         if (status) {
                           state =
                               state.withJoin(
@@ -2506,7 +2570,12 @@ typedef $$TodosTableProcessedTableManager =
       $$TodosTableUpdateCompanionBuilder,
       (Todo, $$TodosTableReferences),
       Todo,
-      PrefetchHooks Function({bool priority, bool executor, bool status})
+      PrefetchHooks Function({
+        bool priority,
+        bool executor,
+        bool author,
+        bool status,
+      })
     >;
 
 class $AppDatabaseManager {

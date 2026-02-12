@@ -8,6 +8,7 @@ class Todos extends Table {
   TextColumn get description => text()();
   IntColumn get priority => integer().references(Priorities, #id)();
   IntColumn get executor => integer().references(Executors, #id)();
+  IntColumn get author => integer().references(Executors, #id)();
   IntColumn get status => integer().references(Statuses, #id)();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   DateTimeColumn get executionDate => dateTime()();

@@ -3,6 +3,7 @@ class TodoEntity {
   final String description;
   final int priority;
   final int executor;
+  final int author;
   final int? status;
   final DateTime? createdAt;
   final DateTime executionDate;
@@ -12,6 +13,7 @@ class TodoEntity {
     required this.description,
     required this.priority,
     required this.executor,
+    required this.author,
     required this.executionDate,
     this.status,
     this.createdAt,

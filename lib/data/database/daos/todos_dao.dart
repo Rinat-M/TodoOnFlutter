@@ -56,6 +56,7 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
               todo: e.readTable(todos).toDomain(),
               priority: e.readTable(priorities).toDomain(),
               executor: e.readTable(executors).toDomain(),
+              author: e.readTable(executors).toDomain(),
               status: e.readTable(statuses).toDomain(),
             ),
           )
@@ -78,6 +79,7 @@ class TodosDao extends DatabaseAccessor<AppDatabase> with _$TodosDaoMixin {
         todo: e.readTable(todos).toDomain(),
         priority: e.readTable(priorities).toDomain(),
         executor: e.readTable(executors).toDomain(),
+        author: e.readTable(executors).toDomain(),
         status: e.readTable(statuses).toDomain(),
       );
     });

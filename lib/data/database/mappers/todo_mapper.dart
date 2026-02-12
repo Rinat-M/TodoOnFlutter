@@ -8,6 +8,7 @@ extension TodoMapper on Todo {
     description: description,
     priority: priority,
     executor: executor,
+    author: author,
     status: status,
     createdAt: createdAt,
     executionDate: executionDate,
@@ -20,6 +21,7 @@ extension TodoDomainMapper on TodoEntity {
     description: description,
     priority: priority,
     executor: executor,
+    author: author,
     status: status ?? defaultStatus,
     createdAt: createdAt ?? DateTime.now(),
     executionDate: executionDate,
@@ -29,6 +31,7 @@ extension TodoDomainMapper on TodoEntity {
     description: Value(description),
     priority: Value(priority),
     executor: Value(executor),
+    author: Value(author),
     status: Value(status ?? defaultStatus),
     executionDate: Value(executionDate),
   );

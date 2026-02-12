@@ -13,7 +13,7 @@ import 'package:todos_app/ui/components/dropdown_filter_chip.dart';
 import 'package:todos_app/ui/components/styled_list_tile.dart';
 import 'package:todos_app/ui/components/todo_bottom_nav_bar.dart';
 import 'package:todos_app/ui/routes/app_routes.dart';
-import 'package:todos_app/common/constants.dart';
+import 'package:todos_app/common/app_constants.dart';
 import 'package:todos_app/common/date_formater.dart';
 import 'package:todos_app/common/logger.dart';
 
@@ -212,7 +212,8 @@ class MainScreen extends HookConsumerWidget {
                       if (selectedIndex.value == 0) {
                         return e.todo.executor == currentUserId;
                       } else {
-                        return e.todo.executor != currentUserId;
+                        return (e.todo.author == currentUserId &&
+                            e.todo.executor != currentUserId);
                       }
                     })
                     .where((e) {
@@ -241,12 +242,23 @@ class MainScreen extends HookConsumerWidget {
                       ),
                       child: SizedBox(
                         key: ValueKey(item.todo.id),
-                        height: 90,
+                        height: item.executor.id == currentUserId ? 90 : 110,
                         child: StyledListTile(
+                          height: item.executor.id == currentUserId ? 50 : 55,
                           leading: getPriorityIcon(item.priority),
                           title: item.todo.description,
-                          subtitle: Text(
-                            "${StringConstants.executionDate}: ${formatter.format(item.todo.executionDate)}",
+                          subtitle: Column(
+                            mainAxisSize: .min,
+                            crossAxisAlignment: .start,
+                            children: [
+                              if (item.executor.id != currentUserId)
+                                Text(
+                                  "${StringConstants.executor}: ${item.executor.name}",
+                                ),
+                              Text(
+                                "${StringConstants.executionDate}: ${formatter.format(item.todo.executionDate)}",
+                              ),
+                            ],
                           ),
                           trailing: IconButton(
                             icon: getStatusIcon(item.status),

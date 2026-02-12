@@ -15,7 +15,7 @@ class ExecutorsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(StringConstants.executors),
+        title: const Text(StringConstants.executors),
       ),
       body: executorsAsync.when(
         data: (items) {
