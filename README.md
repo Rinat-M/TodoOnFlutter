@@ -1,16 +1,23 @@
-# flutter_application_1
+# Простое Todo-приложение на Flutter
 
-A new Flutter project.
+Данный проект создан для пробы пера на Flutter с использованием Dart.
 
-## Getting Started
+## Используемые пакеты
+1. Drift
+2. Riverpod
+3. Logger
+4. Flutter Hooks
+5. Hooks Riverpod
+6. Intl
+7. Flutter Localizations
+8. Change App Package Name
 
-This project is a starting point for a Flutter application.
+## На текущий момент приложение выглядит следующим образом
+<img src="images/2026.02.13-todo_screencast_1.gif" alt="todo_screencast_1" style="width:50%; height:auto;">
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Что ещё можно сделать
+1. Реализовать редактирование и удаление Ответственных. На текущий момент реализовано только создание.
+2. Реализовать удаление существующей задачи.
+3. Оптимизировать импорты за счет объединения.
+4. Разделить экраны на более мелкие компоненты.
+5. Возможно ещё что-нибудь оптимизировать
