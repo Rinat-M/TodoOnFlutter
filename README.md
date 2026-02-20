@@ -11,6 +11,7 @@
 6. Intl
 7. Flutter Localizations
 8. Change App Package Name
+9. AutoRoute
 
 ## На текущий момент приложение выглядит следующим образом
 <img src="images/2026.02.13-todo_screencast_1.gif" alt="todo_screencast_1" style="width:50%; height:auto;">
