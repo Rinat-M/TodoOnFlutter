@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:todos_app/common/string_constants.dart';
 import 'package:todos_app/data/entites/executor_entity.dart';
 import 'package:todos_app/data/providers/repository_providers.dart';
 
+@RoutePage()
 class CreateExecutorScreen extends HookConsumerWidget {
   const CreateExecutorScreen({super.key});
 

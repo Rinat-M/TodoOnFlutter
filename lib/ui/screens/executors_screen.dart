@@ -1,10 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todos_app/common/string_constants.dart';
 import 'package:todos_app/data/providers/data_providers.dart';
 import 'package:todos_app/ui/components/styled_list_tile.dart';
-import 'package:todos_app/ui/routes/app_routes.dart';
+import 'package:todos_app/ui/routes/app_routes_enum.dart';
 
+@RoutePage()
 class ExecutorsScreen extends ConsumerWidget {
   const ExecutorsScreen({super.key});
 
@@ -40,7 +42,8 @@ class ExecutorsScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, AppRoutes.createExecutor),
+        onPressed: () =>
+            context.router.pushPath(AppRoutesEnum.createExecutor.path),
         tooltip: StringConstants.createExecutor,
         child: const Icon(Icons.add),
       ),

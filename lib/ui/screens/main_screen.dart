@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,15 +13,14 @@ import 'package:todos_app/data/providers/repository_providers.dart';
 import 'package:todos_app/ui/components/dropdown_filter_chip.dart';
 import 'package:todos_app/ui/components/styled_list_tile.dart';
 import 'package:todos_app/ui/components/todo_bottom_nav_bar.dart';
-import 'package:todos_app/ui/routes/app_routes.dart';
 import 'package:todos_app/common/app_constants.dart';
 import 'package:todos_app/common/date_formater.dart';
 import 'package:todos_app/common/logger.dart';
+import 'package:todos_app/ui/routes/app_routes_enum.dart';
 
+@RoutePage()
 class MainScreen extends HookConsumerWidget {
-  const MainScreen({super.key, required this.title});
-
-  final String title;
+  const MainScreen({super.key});
 
   Image getPriorityIcon(PriorityEntity priority) {
     return switch (PriorityEnum.fromString(priority.name)) {
@@ -128,11 +128,12 @@ class MainScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
+        title: Text(StringConstants.appTitle),
         actions: [
           IconButton(
             icon: Icon(Icons.people),
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.executors),
+            onPressed: () =>
+                context.router.pushPath(AppRoutesEnum.executors.path),
           ),
         ],
       ),
@@ -235,10 +236,8 @@ class MainScreen extends HookConsumerWidget {
                     final item = filteredItems[index];
 
                     return InkWell(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        AppRoutes.editTodo,
-                        arguments: {'todoId': item.todo.id},
+                      onTap: () => context.router.pushPath(
+                        "${AppRoutesEnum.editTodo.path}/${item.todo.id}",
                       ),
                       child: SizedBox(
                         key: ValueKey(item.todo.id),
@@ -280,7 +279,7 @@ class MainScreen extends HookConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, AppRoutes.createTodo),
+        onPressed: () => context.router.pushPath(AppRoutesEnum.createTodo.path),
         tooltip: StringConstants.createTodo,
         child: const Icon(Icons.add),
       ),

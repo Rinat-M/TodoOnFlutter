@@ -42,9 +42,7 @@ class TodosRepository {
     );
   }
 
-  Future<void> updateTodo(Todo todo) async {
-    return _dao.updateTodo(todo);
-  }
+  Future<void> updateTodo(Todo todo) async => _dao.updateTodo(todo);
 
   Future<void> updateTodoStatus(int todoId, StatusEnum status) async {
     final newStatus = await _dao.getStatusByName(status.name);
